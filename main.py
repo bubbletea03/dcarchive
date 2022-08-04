@@ -39,6 +39,7 @@ class App(Tk):
             self.textarea.insert(END, f.readline())
 
     def fill_listbox_withPosts(self):
+        self.listbox.delete(0, END)
         filenames = os.listdir("./posts")
         for filename in reversed(filenames):
             with open("./posts/"+filename, "r", encoding="utf8") as f:
