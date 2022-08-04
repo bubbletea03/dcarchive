@@ -6,6 +6,7 @@ class Gui:
     def __init__(self):
         self.root = Tk()
 
+    async def gui_start(self):
         root = self.root
         root.title("DCArchiver")
 
@@ -23,7 +24,6 @@ class Gui:
         # >>> 시작 버튼
         start_btn = Button(right_frame, text="기록 시작", padx=10, pady=10, command=self._start_archive)
         start_btn.pack()
-
 
         root.mainloop()
 
@@ -45,7 +45,7 @@ class Gui:
     
     def _start_archive(self):
         asyncio.run(self.start_archive())
-        
+
     async def start_archive(self):
         while True:
             print("test")
@@ -54,4 +54,5 @@ class Gui:
 
 
 if __name__ == "__main__":
-    Gui()
+    gui = Gui()
+    asyncio.run(gui.gui_start())
