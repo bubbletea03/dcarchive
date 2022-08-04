@@ -54,7 +54,7 @@ class App(Tk):
     def loop_saveArchive(self):
         while(self.isArchiving == True):
             recorder.save_pageArchive()
-            self.update()
+            self.fill_listbox_withPosts()
             SAVE_INTERVAL = 30
             time.sleep(SAVE_INTERVAL)
 
