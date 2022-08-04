@@ -6,7 +6,7 @@ import time
 def save_page():
     MAX_WAIT = 5
 
-    driver = webdriver.Chrome("./chromedriver.exe", options=get_driverOption())
+    driver = get_driver()
     url = "https://gall.dcinside.com/mgallery/board/lists?id=leesedol"
     driver.get(url)
     driver.implicitly_wait(MAX_WAIT)
@@ -33,10 +33,13 @@ def save_page():
             f.write(data["title"])
             f.write(data["content"])
 
-def get_driverOption():
+def get_driver():
     options = webdriver.ChromeOptions()
     # options.add_argument("headless")
     options.binary_location = "./chrome/chrome.exe"
-    return options
+
+    driver = webdriver.Chrome("./chromedriver.exe", options=options)
+
+    return driver
 
 save_page()

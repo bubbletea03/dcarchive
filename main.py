@@ -3,8 +3,11 @@ import os
 
 class Gui:
     def __init__(self):
-        root = Tk()
+        self.root = Tk()
+
+        root = self.root
         root.title("DCArchiver")
+
         listbox = Listbox(root, selectmode="extended", width=50, height=20)
         listbox.bind('<<ListboxSelect>>', self.onSelect)
         listbox.pack(side="left", padx=10, pady=10)
@@ -35,8 +38,10 @@ class Gui:
             f.readline()
             self.textarea.delete("1.0", END)
             self.textarea.insert(END, f.readline())
+    
 
     def startOrStop_archive(self):
         pass
 
-Gui()
+if __name__ == "__main__":
+    Gui()
