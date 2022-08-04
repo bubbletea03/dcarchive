@@ -2,30 +2,28 @@ from tkinter import *
 import os
 import asyncio
 
-class Gui:
-    def __init__(self):
-        self.root = Tk()
+def main():
+    root = App()
+    root.mainloop()
 
-    async def gui_start(self):
-        root = self.root
-        root.title("DCArchiver")
+class App(Tk):
+    def __init__(self) -> Tk:
+        Tk.__init__(self)
+        self.title("DCArchiver")
 
-        listbox = Listbox(root, selectmode="extended", width=50, height=20)
-        listbox.bind('<<ListboxSelect>>', self.onSelect)
-        listbox.pack(side="left", padx=10, pady=10)
-        self.fill_listbox_withPosts(listbox)
+        self.listbox = Listbox(self, selectmode="extended", width=50, height=20)
+        self.listbox.bind('<<ListboxSelect>>', self.onSelect)
+        self.listbox.pack(side="left", padx=10, pady=10)
+        self.fill_listbox_withPosts(self.listbox)
 
-        right_frame = Frame(root)
-        right_frame.pack()
+        self.right_frame = Frame(self)
+        self.right_frame.pack()
 
-        self.textarea = Text(right_frame, width=30, height=10)
+        self.textarea = Text(self.right_frame, width=30, height=10)
         self.textarea.pack(side="top", padx=10, pady=10)
 
-        # >>> 시작 버튼
-        start_btn = Button(right_frame, text="기록 시작", padx=10, pady=10, command=self._start_archive)
-        start_btn.pack()
-
-        root.mainloop()
+        self.start_btn = Button(self.right_frame, text="기록 시작", padx=10, pady=10)
+        self.start_btn.pack()
 
     def onSelect(self, event):
         w = event.widget
@@ -42,9 +40,6 @@ class Gui:
         for filename in reversed(filenames):
             with open("./posts/"+filename, "r", encoding="utf8") as f:
                 listbox.insert(END, filename + " │ " + f.readline())
-    
-    def _start_archive(self):
-        asyncio.run(self.start_archive())
 
     async def start_archive(self):
         while True:
@@ -54,5 +49,4 @@ class Gui:
 
 
 if __name__ == "__main__":
-    gui = Gui()
-    asyncio.run(gui.gui_start())
+    main()
