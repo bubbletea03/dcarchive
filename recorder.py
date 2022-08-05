@@ -5,11 +5,10 @@ import time
 from webdriver_manager.chrome import ChromeDriverManager
 import os
 
-def save_pageArchive():
+def save_pageArchive(url):
     MAX_WAIT = 5
 
     driver = get_driver()
-    url = "https://gall.dcinside.com/mgallery/board/lists?id=leesedol"
     driver.get(url)
     driver.implicitly_wait(MAX_WAIT)
 
@@ -51,11 +50,13 @@ def save_pageArchive():
             continue
 
 def remove_ad_banner(driver):
-    banner_closeBtn = driver.find_element(By.ID, "wif_adx_banner_close")
-    if banner_closeBtn: # 배너 존재할 경우
+    try:
+        banner_closeBtn = driver.find_element(By.ID, "wif_adx_banner_close")
         banner_closeBtn.click()
         time.sleep(0.5) # 내려가는 시간이 있으므로 잠깐 정지
-
+    except:
+        pass # 배너 존재하지 않음
+    
 def get_driver():
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")

@@ -33,7 +33,11 @@ class App(Tk):
         self.fill_listbox_withPosts()
 
         self.start_btn = Button(self.left_frame, text="기록 시작", padx=10, pady=10, command=self.execute_startBtnCmd)
-        self.start_btn.pack(side="bottom")
+        self.start_btn.pack(side="bottom", pady=20)
+
+        self.entry = Entry(self.left_frame, width=50)
+        self.entry.pack(side="bottom")
+        self.entry.insert(END, "https://gall.dcinside.com/mgallery/board/lists?id=leesedol")
 
         self.right_frame = Frame(self)
         self.right_frame.pack(side="right")
@@ -43,13 +47,16 @@ class App(Tk):
 
 
     def onSelect(self, event):
-        w = event.widget
-        value = w.get(w.curselection()[0])
-        gall_id = value.split(" │ ")[0]
-        with open(os.getcwd()+"/posts/"+gall_id, "r", encoding="utf8") as f:
-            f.readline()
-        self.photoImage = PhotoImage(file=os.getcwd()+"/screenshots/"+gall_id+".png")
-        self.imageLabel.config(image=self.photoImage)
+        try:
+            w = event.widget
+            value = w.get(w.curselection()[0])
+            gall_id = value.split(" │ ")[0]
+            with open(os.getcwd()+"/posts/"+gall_id, "r", encoding="utf8") as f:
+                f.readline()
+            self.photoImage = PhotoImage(file=os.getcwd()+"/screenshots/"+gall_id+".png")
+            self.imageLabel.config(image=self.photoImage)
+        except:
+            pass
 
     def fill_listbox_withPosts(self):
         self.listbox.delete(0, END)
@@ -70,7 +77,7 @@ class App(Tk):
 
     def loop_saveArchive(self):
         while(self.isArchiving == True):
-            recorder.save_pageArchive()
+            recorder.save_pageArchive(self.entry.get())
 
     def loop_fillListbox(self):
         while(self.isArchiving == True):
