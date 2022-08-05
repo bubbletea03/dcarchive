@@ -42,7 +42,7 @@ def get_driver():
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
     options.add_argument("disable-gpu")
-    options.add_argument("window-size=1200x1080")
+    options.add_argument("window-size=1080x1080")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko")
 
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)

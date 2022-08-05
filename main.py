@@ -2,6 +2,7 @@ from tkinter import *
 import os
 import threading
 import time
+from turtle import width
 import recorder
 import sys
 
@@ -23,19 +24,23 @@ class App(Tk):
         super().__init__()
         self.title("dcArchiver")
 
-        self.listbox = Listbox(self, selectmode="extended", width=50, height=20)
+        self.left_frame = Frame(self)
+        self.left_frame.pack(side="left")
+
+        self.listbox = Listbox(self.left_frame, selectmode="extended", width=50, height=20)
         self.listbox.bind('<<ListboxSelect>>', self.onSelect)
-        self.listbox.pack(side="left", padx=10, pady=10)
+        self.listbox.pack(side="top", padx=10, pady=10)
         self.fill_listbox_withPosts()
 
+        self.start_btn = Button(self.left_frame, text="기록 시작", padx=10, pady=10, command=self.execute_startBtnCmd)
+        self.start_btn.pack(side="bottom")
+
         self.right_frame = Frame(self)
-        self.right_frame.pack()
+        self.right_frame.pack(side="right")
 
-        self.textarea = Text(self.right_frame, width=30, height=10)
-        self.textarea.pack(side="top", padx=10, pady=10)
+        self.imageLabel = Label(self.right_frame)
+        self.imageLabel.pack()
 
-        self.start_btn = Button(self.right_frame, text="기록 시작", padx=10, pady=10, command=self.execute_startBtnCmd)
-        self.start_btn.pack()
 
     def onSelect(self, event):
         w = event.widget
@@ -43,8 +48,8 @@ class App(Tk):
         gall_id = value.split(" │ ")[0]
         with open(os.getcwd()+"/posts/"+gall_id, "r", encoding="utf8") as f:
             f.readline()
-            self.textarea.delete("1.0", END)
-            self.textarea.insert(END, f.readline())
+        self.photoImage = PhotoImage(file=os.getcwd()+"/screenshots/"+gall_id+".png")
+        self.imageLabel.config(image=self.photoImage)
 
     def fill_listbox_withPosts(self):
         self.listbox.delete(0, END)
