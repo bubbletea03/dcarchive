@@ -27,7 +27,8 @@ class App(Tk):
         self.textarea = Text(self.right_frame, width=30, height=10)
         self.textarea.pack(side="top", padx=10, pady=10)
 
-        Button(self.right_frame, text="기록 시작", padx=10, pady=10, command=self.execute_startBtnCmd).pack()
+        self.start_btn = Button(self.right_frame, text="기록 시작", padx=10, pady=10, command=self.execute_startBtnCmd)
+        self.start_btn.pack()
 
     def onSelect(self, event):
         w = event.widget
@@ -48,16 +49,16 @@ class App(Tk):
     def execute_startBtnCmd(self):
         if(self.isArchiving != True):
             self.isArchiving = True
+            self.start_btn.config(text="중지")
             threading.Thread(target=self.loop_saveArchive).start()
         else:
             self.isArchiving = False
+            self.start_btn.config(text="기록 시작")
 
     def loop_saveArchive(self):
         while(self.isArchiving == True):
             recorder.save_pageArchive()
             self.fill_listbox_withPosts()
-            SAVE_INTERVAL = 30
-            time.sleep(SAVE_INTERVAL)
 
 
 if __name__ == "__main__":

@@ -18,8 +18,11 @@ def save_pageArchive():
     for post in posts:
         if post["data-type"] == "icon_notice": #공지글 넘김
             continue
-        driver.get("https://gall.dcinside.com" + post.find("a")["href"])
-        driver.implicitly_wait(MAX_WAIT)
+        try:
+            driver.get("https://gall.dcinside.com" + post.find("a")["href"])
+            driver.implicitly_wait(MAX_WAIT)
+        except:
+            continue
         content_div = bs(driver.page_source, 'lxml').find("div", class_="write_div")
 
         data = {
@@ -34,13 +37,13 @@ def save_pageArchive():
 
 def get_driver():
     options = webdriver.ChromeOptions()
-    # options.add_argument("headless")
-    # options.add_argument("disable-gpu")
-    # options.add_argument("window-size=1920x1080")
-    # options.add_argument("user-agent=Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko")
+    options.add_argument("--headless")
+    options.add_argument("disable-gpu")
+    options.add_argument("window-size=1920x1080")
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko")
 
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-    # driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5];},});")
-    # driver.execute_script("Object.defineProperty(navigator, 'languages', {get: function() {return ['ko-KR', 'ko']}})")
+    driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5];},});")
+    driver.execute_script("Object.defineProperty(navigator, 'languages', {get: function() {return ['ko-KR', 'ko']}})")
 
     return driver

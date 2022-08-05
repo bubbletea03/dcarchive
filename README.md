@@ -10,5 +10,6 @@ https://beomi.github.io/2017/09/28/HowToMakeWebCrawler-Headless-Chrome/
 ###### 나만의 웹 크롤러 만들기(7): 창없는 크롬으로 크롤링하기
 
 Goal:
-- 글 말고 스크린샷 파일 찍어서 보여주기
 - Headless 해결
+- 글 말고 스크린샷 파일 찍어서 보여주기
+- 스크래핑 동안 progressbar 보여주기
