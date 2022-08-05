@@ -11,5 +11,6 @@ https://beomi.github.io/2017/09/28/HowToMakeWebCrawler-Headless-Chrome/
 
 Goal:
 - Headless 해결
-- 글 말고 스크린샷 파일 찍어서 보여주기
+- ~~글 말고 스크린샷 파일 찍어서 보여주기~~
+- 이미 저장한 글은 저장 과정 넘어가기
 - 스크래핑 동안 progressbar 보여주기

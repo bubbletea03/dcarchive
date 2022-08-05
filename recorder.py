@@ -16,24 +16,29 @@ def save_pageArchive():
     soup = bs(driver.page_source, 'lxml')
     posts = soup.find_all("tr", class_="us-post")
 
+    already_filelist = os.listdir(os.getcwd()+"/posts")
 
     for post in posts:
+        data = {
+            "num": post.find("td", class_="gall_num").text,
+            "title": post.find("a").text,
+        }
+
+        if data["num"] in already_filelist: # 이미 저장해논거면 넘김
+            continue
+
         if post["data-type"] == "icon_notice": #공지글 넘김
             continue
+    
         try:
             driver.get("https://gall.dcinside.com" + post.find("a")["href"])
             driver.implicitly_wait(MAX_WAIT)
         except:
             continue
+
         content_div = bs(driver.page_source, 'lxml').find("div", class_="write_div")
+        data["content"] = content_div.text if content_div else ""
 
-        data = {
-            "num": post.find("td", class_="gall_num").text,
-            "title": post.find("a").text,
-            "content": content_div.text if content_div else ""
-        }
-
-        
         remove_ad_banner(driver)
         try:
             with open(os.getcwd()+"/posts/"+data["num"], "w", encoding="utf8") as f:
@@ -43,7 +48,7 @@ def save_pageArchive():
             driver.execute_script("document.body.style.zoom='80%'")
             driver.get_screenshot_as_file(os.getcwd()+"/screenshots/"+data["num"]+".png")
         except:
-            print("saving file failed")
+            continue
 
 def remove_ad_banner(driver):
     banner_closeBtn = driver.find_element(By.ID, "wif_adx_banner_close")
