@@ -3,9 +3,16 @@ import os
 import threading
 import time
 import recorder
+import sys
 
 def main():
+    if not os.path.exists("./posts"): # 디렉토리 없으면 자동생성
+        os.makedirs("./posts")
+    if not os.path.exists("./screenshots"):
+        os.makedirs("./screenshots")
+
     root = App()
+    root.protocol("WM_DELETE_WINDOW", lambda: sys.exit(0))
     root.mainloop()
 
 class App(Tk):
@@ -51,6 +58,7 @@ class App(Tk):
             self.isArchiving = True
             self.start_btn.config(text="중지")
             threading.Thread(target=self.loop_saveArchive).start()
+            threading.Thread(target=self.loop_fillListbox).start()
         else:
             self.isArchiving = False
             self.start_btn.config(text="기록 시작")
@@ -58,7 +66,11 @@ class App(Tk):
     def loop_saveArchive(self):
         while(self.isArchiving == True):
             recorder.save_pageArchive()
+
+    def loop_fillListbox(self):
+        while(self.isArchiving == True):
             self.fill_listbox_withPosts()
+            time.sleep(5)
 
 
 if __name__ == "__main__":
