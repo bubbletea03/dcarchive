@@ -33,7 +33,7 @@ def save_pageArchive():
             "content": content_div.text if content_div else ""
         }
         
-        with open("./posts/"+data["num"], "w", encoding="utf8") as f:
+        with open(os.getcwd()+"/posts/"+data["num"], "w", encoding="utf8") as f:
             f.write(data["title"])
             f.write(data["content"])
         driver.get_screenshot_as_file(os.getcwd()+"/screenshots/"+data["num"]+".png")

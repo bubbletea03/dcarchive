@@ -6,10 +6,10 @@ import recorder
 import sys
 
 def main():
-    if not os.path.exists("./posts"): # 디렉토리 없으면 자동생성
-        os.makedirs("./posts")
-    if not os.path.exists("./screenshots"):
-        os.makedirs("./screenshots")
+    if not os.path.exists(os.getcwd()+"/posts"): # 디렉토리 없으면 자동생성
+        os.makedirs(os.getcwd()+"/posts")
+    if not os.path.exists(os.getcwd()+"/screenshots"):
+        os.makedirs(os.getcwd()+"/screenshots")
 
     root = App()
     root.protocol("WM_DELETE_WINDOW", lambda: sys.exit(0))
@@ -41,16 +41,16 @@ class App(Tk):
         w = event.widget
         value = w.get(w.curselection()[0])
         gall_id = value.split(" │ ")[0]
-        with open("./posts/"+gall_id, "r", encoding="utf8") as f:
+        with open(os.getcwd()+"/posts/"+gall_id, "r", encoding="utf8") as f:
             f.readline()
             self.textarea.delete("1.0", END)
             self.textarea.insert(END, f.readline())
 
     def fill_listbox_withPosts(self):
         self.listbox.delete(0, END)
-        filenames = os.listdir("./posts")
+        filenames = os.listdir(os.getcwd()+"/posts")
         for filename in reversed(filenames):
-            with open("./posts/"+filename, "r", encoding="utf8") as f:
+            with open(os.getcwd()+"/posts/"+filename, "r", encoding="utf8") as f:
                 self.listbox.insert(END, filename + " │ " + f.readline())
 
     def execute_startBtnCmd(self):
