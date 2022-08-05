@@ -32,7 +32,9 @@ def save_pageArchive():
             "title": post.find("a").text,
             "content": content_div.text if content_div else ""
         }
+
         
+        remove_ad_banner(driver)
         try:
             with open(os.getcwd()+"/posts/"+data["num"], "w", encoding="utf8") as f:
                 f.write(data["title"])
@@ -42,6 +44,12 @@ def save_pageArchive():
             driver.get_screenshot_as_file(os.getcwd()+"/screenshots/"+data["num"]+".png")
         except:
             print("saving file failed")
+
+def remove_ad_banner(driver):
+    banner_closeBtn = driver.find_element(By.ID, "wif_adx_banner_close")
+    if banner_closeBtn: # 배너 존재할 경우
+        banner_closeBtn.click()
+        time.sleep(0.5) # 내려가는 시간이 있으므로 잠깐 정지
 
 def get_driver():
     options = webdriver.ChromeOptions()
